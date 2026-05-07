@@ -1,17 +1,18 @@
-import React from 'react'
-import { Button, Text } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks';
-import { CreateCategoriaModal } from './CreateCategoriaModal';
+import { Button} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { CreateCategoriaModal } from "./CreateCategoriaModal";
+import { CategoriesList } from "./CategoriesList";
+import React from "react";
 
-export const CategorieaPage = () => {
-    const [opened, {open, close}] = useDisclosure()
-
+export const CategorieaPage = (() => {
+  const [opened, { open, close }] = useDisclosure();
 
   return (
-    <><Text>Тут будет список</Text>
-    <Button onClick={open}>ЕБашим по тцк</Button>
+    <>
+      <Button onClick={open}>ЕБашим по тцк</Button>
+      <CategoriesList />
 
-    {opened && (    <CreateCategoriaModal opened={opened} onClose={close}></CreateCategoriaModal>)}
+      {opened && <CreateCategoriaModal opened={opened} onClose={close} />}
     </>
-  )
-}
+  );
+});

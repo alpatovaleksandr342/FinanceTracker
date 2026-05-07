@@ -17,6 +17,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
+    "shared": "workspace:*",
     "@prisma/client": "5.22.0",
     "@trpc/client": "11.16.0",
     "@trpc/server": "11.16.0",
