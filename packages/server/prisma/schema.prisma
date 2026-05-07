@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== Товар =====
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  barcode    String?  @unique
+  unit       String   @default("шт") // кг, л, шт
+  categoryId Int
+  price      Float    // розничная цена продажи
+
+  category     ProductCategory @relation(fields: [categoryId], references: [id])
+  batches      InventoryBatch[]
+  saleItems    SaleItem[]
+  purchaseLines PurchaseLine[]
+  writeOffs    WriteOff[]
+}
+
+model ProductCategory {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+// ===== Партионный учёт (FIFO) =====
+model InventoryBatch {
+  id                Int      @id @default(autoincrement())
+  productId         Int
+  purchaseLineId    Int?
+  initialQuantity   Float    // сколько пришло
+  remainingQuantity Float    // сколько осталось в партии
+  unitCost          Float    // закупочная себестоимость единицы
+  receivedDate      DateTime @default(now())
+
+  product      Product       @relation(fields: [productId], references: [id])
+  purchaseLine PurchaseLine? @relation(fields: [purchaseLineId], references: [id])
+  writeOffs    WriteOff[]
+  saleItems    SaleItem[]
+}
+
+// ===== Закупки =====
+model PurchaseLine {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  supplierId Int
+  quantity   Float
+  unitCost   Float    // цена закупки
+  totalCost  Float    // quantity * unitCost
+  date       DateTime @default(now())
+
+  product  Product  @relation(fields: [productId], references: [id])
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+  batches  InventoryBatch[]
+}
+
+model Supplier {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  purchaseLines PurchaseLine[]
+}
+
+// ===== Продажи =====
+model SaleItem {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  batchId   Int      // из какой партии списан товар (FIFO)
+  quantity  Float
+  unitPrice Float    // цена продажи (может отличаться от Product.price из-за скидок)
+  total     Float    // quantity * unitPrice
+  date      DateTime @default(now())
+
+  product Product        @relation(fields: [productId], references: [id])
+  batch   InventoryBatch @relation(fields: [batchId], references: [id])
+
+  // при создании SaleItem нужно уменьшить remainingQuantity в InventoryBatch
+}
+
+// ===== Товарные потери =====
+model WriteOff {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  batchId   Int
+  quantity  Float
+  reason    String   // "просрочка", "порча", "кража"
+  date      DateTime @default(now())
+
+  product Product        @relation(fields: [productId], references: [id])
+  batch   InventoryBatch @relation(fields: [batchId], references: [id])
+
+  // при создании WriteOff нужно уменьшить remainingQuantity в InventoryBatch
+}
+
+// ===== Кассовые смены (движение денег) =====
+model CashSession {
+  id        Int      @id @default(autoincrement())
+  storeId   Int
+  openDate  DateTime @default(now())
+  closeDate DateTime?
+  // все суммы агрегируются из связанных CashTransaction за смену
+
+  transactions CashTransaction[]
+}
+
+model CashTransaction {
+  id            Int      @id @default(autoincrement())
+  sessionId     Int
+  type          String   // "sale" | "expense" | "income" | "withdraw"
+  amount        Float    // положительное — приход, отрицательное — расход
+  description   String?
+  date          DateTime @default(now())
+
+  session CashSession @relation(fields: [sessionId], references: [id])
+}
