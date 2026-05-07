@@ -1,9 +1,8 @@
 import { trpc } from "src/main";
 
-export const useDeleteCategory = () => {
+export const useUpdateCategory = () => {
   const utils = trpc.useUtils();
-
-  return trpc.categoties.deleteCategory.useMutation({
+  return trpc.categoties.updateCategory.useMutation({
     onMutate: () => {},
     onSuccess: () => {
       utils.categoties.getAllCategoryes.invalidate();

@@ -1,5 +1,5 @@
 import { prisma } from "./../db/prisma";
-import { createCatigories, deleteCategory } from "shared";
+import { createCatigories, deleteCategory, updateCategory } from "shared";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const categotiesRouter = router({
@@ -22,6 +22,18 @@ export const categotiesRouter = router({
       return ctx.prisma.productCategory.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+  updateCategory: publicProcedure
+    .input(updateCategory)
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.productCategory.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
         },
       });
     }),
