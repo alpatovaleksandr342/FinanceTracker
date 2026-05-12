@@ -12,7 +12,7 @@ export const CategorieaPage = () => {
   const onOpenUpdate = (value: updateCategoryInput) => {setCategory(value); open()}
   return (
     <>
-      <Button onClick={onOpenCreate}>ЕБашим по тцк</Button>
+      <Button onClick={onOpenCreate}>Добавить</Button>
       <CategoriesList openUpdate={onOpenUpdate} />
 
       {opened && <CreateCategoriaModal opened={opened} onClose={close} category={category} />}
