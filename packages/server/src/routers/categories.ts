@@ -1,4 +1,3 @@
-import { prisma } from "./../db/prisma";
 import { createCatigories, deleteCategory, updateCategory } from "shared";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
