@@ -1,9 +1,7 @@
 import { Button, Flex, Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import React, { memo } from "react";
+import React from "react";
 import { trpc } from "src/main";
-import { useDeleteCategory } from "src/api/categories/delete";
-import type { updateCategoryInput } from "shared";
 
 export const ProductList = () => {
 const {data} = trpc.products.getAllProduct.useQuery();

@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: barbershop-db
+    container_name: finance-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - barbershop_postgres_data:/var/lib/postgresql/data  # именованный том
+      - finance_postgres_data:/var/lib/postgresql/data  # именованный том
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d barbershop"]
       interval: 10s
@@ -25,7 +25,7 @@ services:
       - /var/run/postgresql
   db-seed:
     image: node:20-alpine
-    container_name: barbershop-seed
+    container_name: finance-seed
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,7 +46,6 @@ services:
     restart: "no"
 
 volumes:
-  # Явно объявляем том, который будем использовать
-  barbershop_postgres_data:
-    name: barbershop_postgres_data  # фиксированное имя тома
+  finance_postgres_data:
+    name: finance_postgres_data  # фиксированное имя тома
     external: false  # Docker сам создаст том с этим именем при первом запуске

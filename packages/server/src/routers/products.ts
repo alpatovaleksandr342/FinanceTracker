@@ -12,7 +12,7 @@ export const ProductRouter = router({
             id: true,
             name: true,
             barcode: true,
-            unic: true,
+            unit: true,
             category: true,
             price: true,
         }
