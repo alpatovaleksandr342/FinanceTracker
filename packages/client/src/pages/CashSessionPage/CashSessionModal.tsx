@@ -1,57 +1,48 @@
-import {
-  Button,
-  Modal,
-  Select,
-  TextInput,
-  Text,
-  NumberInput,
-} from "@mantine/core";
+import { Button, Modal, NumberInput } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { schemaResolver, useForm } from "@mantine/form";
 import {
   createCashSession,
-  createCatigories,
-  createProduct,
   type createCashSessionInput,
-  type createProductInput,
-  type ProductFromDB,
+  type SessionFromDB,
 } from "shared";
 import { useCreateSession } from "src/api/cashSession/create";
-import { useCreateProduct } from "src/api/products/create";
-import { useUpdateProduct } from "src/api/products/update";
-import { trpc } from "src/main";
+import { useUpdateSession } from "src/api/cashSession/update";
 
 interface CreateSessionModalProps {
   opened: boolean;
   onClose: () => void;
-  product?: ProductFromDB;
+  session?: SessionFromDB;
 }
 
 export const CreateSessionModal = ({
   opened,
   onClose,
-  product,
+  session,
 }: CreateSessionModalProps) => {
   const form = useForm<createCashSessionInput>({
     initialValues: {
-      storeId: 0,
-      openDate: new Date().toISOString(),
-      closeDate: new Date().toISOString(),
+      storeId: session?.storeId || 0,
+      openDate: session?.openDate.toISOString() || new Date().toISOString(),
+      closeDate: session?.closeDate?.toISOString() || new Date().toISOString(),
     },
     validate: schemaResolver(createCashSession),
   });
 
   const create = useCreateSession();
+  const update = useUpdateSession();
 
   const handleCreate = () => {
     create.mutate(form.getValues());
   };
 
-  const handleUpdate = (id: number) => {};
+  const handleUpdate = (id: number) => {
+    update.mutate({ ...form.getValues(), id });
+  };
 
   const onClickCreate = () => {
-    if (product) {
-      handleUpdate(product.id);
+    if (session) {
+      handleUpdate(session.id);
     } else {
       handleCreate();
     }

@@ -7,17 +7,22 @@ import { CreateSessionModal } from "./CashSessionModal";
 
 export const CashSessionPage = () => {
   const [opened, { open, close }] = useDisclosure();
-const [editingSession, setEditingSession] = useState<SessionFromDB>()
+  const [editingSession, setEditingSession] = useState<SessionFromDB>();
 
-const handleCreate = useCallback(()=>{
-    setEditingSession(undefined)
-    open()
-}, [])
+  const handleCreate = useCallback(() => {
+    setEditingSession(undefined);
+    open();
+  }, []);
+
+  const handleEdit = useCallback((session: SessionFromDB) => {
+    setEditingSession(session);
+    open();
+  }, []);
   return (
     <>
-      <CashSessionHeader open={handleCreate}/>
-      <CashSessionList />
-      {opened && (<CreateSessionModal opened={opened} onClose={close}/>)}
+      <CashSessionHeader open={handleCreate} />
+      <CashSessionList open={handleEdit}/>
+      {opened && <CreateSessionModal opened={opened} onClose={close} session={editingSession}/>}
     </>
   );
 };
