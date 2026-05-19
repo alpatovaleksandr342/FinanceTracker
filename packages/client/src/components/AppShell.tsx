@@ -25,7 +25,8 @@ export const AppSh = ({ children }: AppShProps) => {
   const navBarList: NavItem[] = [
     { name: "Категории", link: "/categories" },
     { name: "Дашборд", link: "/Dashboard" },
-    { name: "Продукты", link: "/Products"}
+    { name: "Продукты", link: "/Products"},
+    { name: "Поставщики", link: "/Suppliers"}  
   ];
 
   return (

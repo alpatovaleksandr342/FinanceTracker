@@ -5,6 +5,7 @@ import { Home } from "./pages/home";
 import { Dashboard } from "./pages/Dashboard";
 import { CategorieaPage } from "./pages/CategoriesPage/CategorieaPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
+import { SupplierPage } from "./pages/SuppliersPage/SupplierPage";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/Categories" element={<CategorieaPage />} />
           <Route path="/Products" element={<ProductPage/>}/>
           <Route path="*" element={<h1>404 Not found</h1>} />
+          <Route path="/Suppliers" element={<SupplierPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
