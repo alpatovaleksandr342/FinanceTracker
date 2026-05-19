@@ -12,7 +12,8 @@ model Product {
   id         Int      @id @default(autoincrement())
   name       String
   barcode    String?  @unique
-  unit       String   @default("шт") // кг, л, шт
+  unit       Int 
+  unitLabel  String   @default("шт") // кг, л, шт
   categoryId Int
   price      Float    // розничная цена продажи
 

@@ -1,49 +1,100 @@
-import { Modal } from "@mantine/core";
-import { schemaResolver } from "@mantine/form";
-import { useForm } from "@mantine/form";
-import React from "react";
-import { useCreateCategory } from "src/api/categories/create";
-import { createCatigories, type createCatigoriesInput } from "shared";
-import { TextInput } from "@mantine/core";
-import { Button } from "@mantine/core";
-import type { updateCategoryInput } from "shared";
-import { useUpdateCategory } from "src/api/categories/update";
+import {
+  Button,
+  Modal,
+  Select,
+  TextInput,
+  Text,
+  NumberInput,
+} from "@mantine/core";
+import { schemaResolver, useForm } from "@mantine/form";
+import {
+  createCatigories,
+  createProduct,
+  type createProductInput,
+  type ProductFromDB,
+} from "shared";
+import { useCreateProduct } from "src/api/products/create";
+import { useUpdateProduct } from "src/api/products/update";
+import { trpc } from "src/main";
 
 interface CreateProductModalProps {
   opened: boolean;
   onClose: () => void;
-  category?: updateCategoryInput|null;
+  product?: ProductFromDB;
 }
 
 export const CreateProductModal = ({
   opened,
   onClose,
-  category,
+  product,
 }: CreateProductModalProps) => {
-  const form = useForm({
+  const form = useForm<createProductInput>({
     initialValues: {
-      name: category ?category.name:"",
+      name: product?.name ||"",
+      barcode: product?.barcode|| "",
+      price: product?.price || 0,
+      unit: product?.unit || 0,
+      categoryId: product?.category.id || 0,
     },
-    validate: schemaResolver(createCatigories),
+    validate: schemaResolver(createProduct),
   });
 
-  const createCategoria = useCreateCategory();
-  const updateCategory = useUpdateCategory();
-  const handleCreate = (value: createCatigoriesInput) => {
-    if (category) {return updateCategory.mutate({id: category.id, name: value.name})
-      };
-    createCategoria.mutate(value);
+  const categories = trpc.products.getCategories.useQuery();
+  const create = useCreateProduct();
+  const update = useUpdateProduct()
+  if (!categories) {
+    return <Text>Загрузка...</Text>;
+  }
+  const handleCreate = () => {
+    create.mutate(form.getValues());
   };
 
-  console.log(form.values);
+const handleUpdate = (id: number) =>{
+  update.mutate({...form.getValues(), id: id})
+}
+
+  const onClickCreate = () => {
+    if (product) {
+      handleUpdate(product.id)
+    } else{
+    handleCreate();
+    }
+  };
+
   return (
     <Modal opened={opened} onClose={onClose}>
-      <form onSubmit={form.onSubmit((values) => {handleCreate(values)})}>
+      <form onSubmit={form.onSubmit(onClickCreate)}>
         <TextInput
-          label={"Название"}
-          placeholder="Продукты"
+          label={"Наименование"}
+          placeholder="Продукт"
           {...form.getInputProps("name")}
-        ></TextInput>
+        />
+        <TextInput
+          label={"Баркод"}
+          placeholder="123123123123123"
+          {...form.getInputProps("barcode")}
+        />
+        <NumberInput
+          hideControls
+          label={"Цена"}
+          placeholder="Продукт"
+          {...form.getInputProps("price")}
+        />
+        <NumberInput
+          hideControls
+          label={"Количество"}
+          placeholder="Продукт"
+          {...form.getInputProps("unit")}
+        />
+        <Select
+          data={categories.data?.map((category) => {
+            return { value: category.id, label: category.name };
+          })}
+          searchable
+          label={"Категория"}
+          placeholder="Продукт"
+          {...form.getInputProps("categoryId")}
+        />
 
         <Button type="submit">Создать</Button>
       </form>
