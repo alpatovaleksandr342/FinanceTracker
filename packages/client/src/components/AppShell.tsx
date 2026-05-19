@@ -25,10 +25,10 @@ export const AppSh = ({ children }: AppShProps) => {
   const navBarList: NavItem[] = [
     { name: "Категории", link: "/categories" },
     { name: "Дашборд", link: "/Dashboard" },
-    { name: "Продукты", link: "/Products"},
-    { name: "Поставщики", link: "/Suppliers"}  
+    { name: "Продукты", link: "/Products" },
+    { name: "Поставщики", link: "/Suppliers" },
+    { name: "Кассовые смены", link: "/CashSession" },
   ];
-
   return (
     <AppShell
       withBorder

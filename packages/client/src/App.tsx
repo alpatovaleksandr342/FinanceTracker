@@ -6,6 +6,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { CategorieaPage } from "./pages/CategoriesPage/CategorieaPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { SupplierPage } from "./pages/SuppliersPage/SupplierPage";
+import { CashSessionPage } from "./pages/CashSessionPage/CashSessionPage";
 function App() {
   return (
     <BrowserRouter>
@@ -20,9 +21,10 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Categories" element={<CategorieaPage />} />
-          <Route path="/Products" element={<ProductPage/>}/>
+          <Route path="/Products" element={<ProductPage />} />
           <Route path="*" element={<h1>404 Not found</h1>} />
           <Route path="/Suppliers" element={<SupplierPage />} />
+          <Route path="/CashSession" element={<CashSessionPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
