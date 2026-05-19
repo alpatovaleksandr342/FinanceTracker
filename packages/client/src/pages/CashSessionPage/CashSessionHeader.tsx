@@ -1,7 +1,10 @@
+import { Button, Flex } from '@mantine/core'
 import React from 'react'
 
-export const CashSessionHeader = () => {
+export const CashSessionHeader = ({open}: {open: ()=> void}) => {
   return (
-    <div>CashSessionHeader</div>
+    <Flex>
+        <Button onClick={open}>Создать</Button>
+    </Flex>
   )
 }
