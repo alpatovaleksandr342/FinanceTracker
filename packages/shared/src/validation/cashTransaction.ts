@@ -6,7 +6,7 @@ type RouterOutput = inferRouterOutputs<AppRouter>;
 
 export type transactionFromDB = RouterOutput["cashTransaction"]["getAllTransaction"][number]
 
-export enum transactionType{
+export enum transactionsType{
     sale = "sale",
     expense ="expense",
     withdraw = "withdraw"
@@ -15,7 +15,7 @@ export enum transactionType{
 const BaseTransaction = 
 {
     sessionId: z.number(),
-    type: z.nativeEnum(transactionType),
+    type: z.enum(['sale','expense',"withdraw"]),
     amount: z.number(),
     description: z.string().optional(),
     date: z.string().datetime().optional()
