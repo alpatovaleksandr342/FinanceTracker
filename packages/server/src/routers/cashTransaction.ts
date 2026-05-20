@@ -5,7 +5,7 @@ import {
 } from "shared";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
-export const cashSessionRouter = router({
+export const cashTransactionRouter = router({
   CreateTransaction: publicProcedure
     .input(CreatetransactionZod)
     .mutation(async ({ ctx, input }) => {
@@ -32,6 +32,20 @@ export const cashSessionRouter = router({
     }),
     getAllTransaction: publicProcedure
     .query(async ({ctx})=>{
-        return ctx.prisma.cashTransaction.findMany()
+        return ctx.prisma.cashTransaction.findMany({
+          select:{
+            id: true,
+            type: true,
+            description: true,
+            amount: true,
+            date: true,
+            session: {
+              select:{
+                id: true,
+                storeId: true
+              }
+            }
+          }
+        })
     })
 });

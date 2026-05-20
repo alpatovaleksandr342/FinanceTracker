@@ -1,7 +1,8 @@
+import { Button } from '@mantine/core'
 import React from 'react'
 
-export const CashTransactionHeader = () => {
+export const CashTransactionHeader = ({open}:{open: ()=>void}) => {
   return (
-    <div>CashTransactionHeader</div>
+    <Button onClick={open}>Создать</Button>
   )
 }

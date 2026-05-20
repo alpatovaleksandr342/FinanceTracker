@@ -4,7 +4,7 @@ import type { AppRouter } from "server";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 
-// export const transactionFromDB = RouterOutput[""][""][number]
+export type transactionFromDB = RouterOutput["cashTransaction"]["getAllTransaction"][number]
 
 export enum transactionType{
     sale = "sale",
