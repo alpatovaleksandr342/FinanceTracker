@@ -113,10 +113,16 @@ model CashSession {
 model CashTransaction {
   id            Int      @id @default(autoincrement())
   sessionId     Int
-  type          String   // "sale" | "expense" | "income" | "withdraw"
+  type          transactionsType   // "sale" | "expense" | "expense" | "withdraw"
   amount        Float    // положительное — приход, отрицательное — расход
   description   String?
   date          DateTime @default(now())
 
   session CashSession @relation(fields: [sessionId], references: [id])
+}
+
+enum transactionsType{
+  sale
+  expense
+  withdraw
 }
