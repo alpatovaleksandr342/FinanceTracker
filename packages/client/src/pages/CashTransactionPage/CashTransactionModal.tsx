@@ -1,10 +1,18 @@
-import { Button, Modal, NumberInput, Select, Stack, TextInput } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  NumberInput,
+  Select,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import React from "react";
 import type { transactionFromDB } from "shared";
 import { useCreateTransaction } from "src/api/cashTransaction/create";
 import { useUpdateTransaction } from "src/api/cashTransaction/update";
+import { trpc } from "src/main";
 
 interface TransactionModalProps {
   opened: boolean;
@@ -35,6 +43,8 @@ export const CashTransactionModal = ({
       }
     },
   });
+
+  const session = trpc.cashTransaction.getAllSession.useQuery().data;
 
   const create = useCreateTransaction();
   const update = useUpdateTransaction();
@@ -71,12 +81,23 @@ export const CashTransactionModal = ({
           <DateTimePicker label={"Время"} {...form.getInputProps("date")} />
           <NumberInput label={"Сумма"} {...form.getInputProps("amount")} />
           {form.getValues().amount < 0 && (
-            <Select label={"Тип"} data={[{label:"Расход", value:"expense"},{label:"Возврат", value:"withdraw"}]} defaultValue={"expense"} {...form.getInputProps("type")} />
+            <Select
+              label={"Тип"}
+              data={[
+                { label: "Расход", value: "expense" },
+                { label: "Возврат", value: "withdraw" },
+              ]}
+              defaultValue={"expense"}
+              {...form.getInputProps("type")}
+            />
           )}
 
-          <NumberInput
+          <Select
+            data={session?.map((s) => {
+              return { label: s.storeId.toString(), value: s.id };
+            })}
             label={"Номер кассы"}
-            {...form.getInputProps("session.storeId")}
+            {...form.getInputProps("session.id")}
           />
           <TextInput
             label={"Описание"}

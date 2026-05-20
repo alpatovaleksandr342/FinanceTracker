@@ -9,14 +9,14 @@ export const cashTransactionRouter = router({
   CreateTransaction: publicProcedure
     .input(CreatetransactionZod)
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.cashTransaction.create({
+      return await ctx.prisma.cashTransaction.create({
         data: input,
       });
     }),
   UpdateTransaction: publicProcedure
     .input(UpdateTransactionZod)
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.cashTransaction.update({
+      return await ctx.prisma.cashTransaction.update({
         where: {
           id: input.id,
         },
@@ -26,13 +26,21 @@ export const cashTransactionRouter = router({
   DeleteTransaction: publicProcedure
     .input(DeleteTransactionZod)
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.cashTransaction.delete({
+      return await ctx.prisma.cashTransaction.delete({
         where: input,
       });
     }),
+    getAllSession: publicProcedure.query(async({ctx})=>{
+      return await ctx.prisma.cashSession.findMany({
+        select:{
+          id: true,
+          storeId: true
+        }
+      })
+    }),
     getAllTransaction: publicProcedure
     .query(async ({ctx})=>{
-        return ctx.prisma.cashTransaction.findMany({
+        return await ctx.prisma.cashTransaction.findMany({
           select:{
             id: true,
             type: true,
