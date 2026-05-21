@@ -14,7 +14,7 @@ export const CategoriesList = memo(
       deleteCategory.mutate({ id: id });
     };
 
-    if (!data) return <div>Process...</div>;
+    if (!data) return <div>Загрузка...</div>;
 
     return (
       <Table.ScrollContainer minWidth={500}>
