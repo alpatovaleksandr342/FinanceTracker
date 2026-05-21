@@ -28,6 +28,7 @@ export const AppSh = ({ children }: AppShProps) => {
     { name: "Продукты", link: "/Products" },
     { name: "Поставщики", link: "/Suppliers" },
     { name: "Кассовые смены", link: "/CashSession" },
+    {name: "Поставки", link: "/Purchase"}
   ];
   return (
     <AppShell
