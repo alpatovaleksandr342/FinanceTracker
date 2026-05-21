@@ -7,6 +7,7 @@ import { CategorieaPage } from "./pages/CategoriesPage/CategorieaPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { SupplierPage } from "./pages/SuppliersPage/SupplierPage";
 import { CashSessionPage } from "./pages/CashSessionPage/CashSessionPage";
+import { InventoryBatchPage } from "./pages/InventoryBatchPage/InventoryBatchPage";
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function App() {
           <Route path="*" element={<h1>404 Not found</h1>} />
           <Route path="/Suppliers" element={<SupplierPage />} />
           <Route path="/CashSession" element={<CashSessionPage />} />
+          <Route path="/InventoryBatch" element={<InventoryBatchPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>

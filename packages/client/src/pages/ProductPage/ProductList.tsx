@@ -1,6 +1,6 @@
 import { Button, Flex, Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import React, { type RefCallback } from "react";
+import React from "react";
 import type { ProductFromDB } from "shared";
 import { useDeleteProduct } from "src/api/products/delete";
 import { trpc } from "src/main";
