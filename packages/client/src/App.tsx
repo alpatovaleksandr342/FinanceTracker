@@ -8,6 +8,7 @@ import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { SupplierPage } from "./pages/SuppliersPage/SupplierPage";
 import { CashSessionPage } from "./pages/CashSessionPage/CashSessionPage";
 import { CashTransactionPage } from "./pages/CashTransactionPage/CashTransactionPage";
+import { InventoryBatchPage } from "./pages/InventoryBatchPage/InventoryBatchPage";
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/CashSession" element={<CashSessionPage />} />
           <Route path="/CashTransaction" element={<CashTransactionPage />} />
 
+          <Route path="/InventoryBatch" element={<InventoryBatchPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
