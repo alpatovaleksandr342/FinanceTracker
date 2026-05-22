@@ -1,7 +1,14 @@
+import { Button } from '@mantine/core'
 import React from 'react'
 
-export const WriteOffHeader = () => {
+interface WriteOffHeaderProps {
+  open: () => void
+}
+
+export const WriteOffHeader = ({ open }: WriteOffHeaderProps) => {
   return (
-    <div>WriteOffHeader</div>
+    <div>
+      <Button onClick={open}>Создать</Button>
+    </div>
   )
 }

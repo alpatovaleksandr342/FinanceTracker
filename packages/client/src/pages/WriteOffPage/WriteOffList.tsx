@@ -1,25 +1,35 @@
-import { Table, Flex, Button } from '@mantine/core'
-import { IconTrash } from '@tabler/icons-react'
-import React from 'react'
-import { trpc } from 'src/main'
+import { Table, Flex, Button } from "@mantine/core";
+import { IconTrash } from "@tabler/icons-react";
+import React from "react";
+import { useDeleteWriteOff } from "src/api/writesOff/delete";
+import { trpc } from "src/main";
 
 const getReasonLabel = (reason: string) => {
-    switch (reason) {
-        case "delay": return "Просрочка"
-        case "decay": return "Повреждение"
-        case "steal": return "Кража"
-        default: return reason
-    }
-}
+  switch (reason) {
+    case "delay":
+      return "Просрочка";
+    case "decay":
+      return "Повреждение";
+    case "steal":
+      return "Кража";
+    default:
+      return reason;
+  }
+};
 
 export const WriteOffList = () => {
+  const { data } = trpc.writeOff.getWriteOff.useQuery();
 
-    const {data} = trpc.writeOff.getWriteOff.useQuery()
+  const deleteWriteOff = useDeleteWriteOff();
 
-    if(!data) return <div>Загрузка...</div>
+  if (!data) return <div>Загрузка...</div>;
+
+  const handleDelete = (id: number) => {
+    deleteWriteOff.mutate({ id });
+  };
 
   return (
-     <Table.ScrollContainer minWidth={500}>
+    <Table.ScrollContainer minWidth={500}>
       <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
           <Table.Tr>
@@ -40,7 +50,9 @@ export const WriteOffList = () => {
               <Table.Td>
                 <Flex gap="xs">
                   <Button
-                
+                    onClick={() => {
+                      handleDelete(WriteOff.id);
+                    }}
                     variant="subtle"
                     color="red"
                     size="xs"
@@ -55,5 +67,5 @@ export const WriteOffList = () => {
         </Table.Tbody>
       </Table>
     </Table.ScrollContainer>
-  )
-}
+  );
+};
