@@ -11,6 +11,7 @@ import { PurchasePage } from "./pages/PurchasePage/PurchasePage";
 import { CashTransactionPage } from "./pages/CashTransactionPage/CashTransactionPage";
 import { InventoryBatchPage } from "./pages/InventoryBatchPage/InventoryBatchPage";
 import { WriteOffPage } from "./pages/WriteOffPage/WriteOffPage";
+import { SaleItemPage } from "./pages/SaleItemPage/SaleItemPage";
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +34,7 @@ function App() {
           <Route path="/CashTransaction" element={<CashTransactionPage />} />
           <Route path="/InventoryBatch" element={<InventoryBatchPage />} />
           <Route path="/WriteOff" element={<WriteOffPage />} />
+          <Route path="/SaleItem" element={<SaleItemPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>

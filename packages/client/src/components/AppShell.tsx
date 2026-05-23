@@ -21,7 +21,8 @@ export const AppSh = ({ children }: AppShProps) => {
     { name: "Домашняя", link: "/Home" },
     { name: "Дашборд", link: "/Dashboard" },
     { name: "Учёт", link: "/InventoryBatch" },
-        { name: "Списания", link: "/WriteOff" },
+    { name: "Продажи", link: "/SaleItem" },
+    { name: "Списания", link: "/WriteOff" },
   ];
 
   const navBarList: NavItem[] = [
@@ -30,7 +31,7 @@ export const AppSh = ({ children }: AppShProps) => {
     { name: "Продукты", link: "/Products" },
     { name: "Поставщики", link: "/Suppliers" },
     { name: "Кассовые смены", link: "/CashSession" },
-    {name: "Поставки", link: "/Purchase"},
+    { name: "Поставки", link: "/Purchase" },
     { name: "Транзакции", link: "/CashTransaction" },
   ];
   return (
